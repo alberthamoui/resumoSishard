@@ -14,3 +14,8 @@ setup background output #transcode{sfilter=mosaic,vcodec=mp4v,vb=4096,acodec=non
 control background play
 control channel1 play
 control channel2 play
+
+
+
+
+vlc -I dummy --vlm-conf path\to\mosaic_config.vlm
