@@ -1,0 +1,16 @@
+new channel1 broadcast enabled
+setup channel1 input rtsp://path_to_first_rtsp_stream
+setup channel1 option network-caching=1000
+
+new channel2 broadcast enabled
+setup channel2 input rtsp://path_to_second_rtsp_stream
+setup channel2 option network-caching=1000
+
+new background broadcast enabled
+setup background input fake:
+setup background option fake-file=/path/to/your/background.jpg
+setup background output #transcode{sfilter=mosaic,vcodec=mp4v,vb=4096,acodec=none,channels=2,samplerate=44100}:bridge-in{offset=0}:duplicate{dst=std{access=udp,mux=ts,dst=127.0.0.1:1234}}
+
+control background play
+control channel1 play
+control channel2 play
