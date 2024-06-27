@@ -1,21 +1,25 @@
 new channel1 broadcast enabled
-setup channel1 input rtsp://path_to_first_rtsp_stream
+setup channel1 input rtsp://camera1_ip
 setup channel1 option network-caching=1000
 
 new channel2 broadcast enabled
-setup channel2 input rtsp://path_to_second_rtsp_stream
+setup channel2 input rtsp://camera2_ip
 setup channel2 option network-caching=1000
 
-new background broadcast enabled
-setup background input fake:
-setup background option fake-file=/path/to/your/background.jpg
-setup background output #transcode{sfilter=mosaic,vcodec=mp4v,vb=4096,acodec=none,channels=2,samplerate=44100}:bridge-in{offset=0}:duplicate{dst=std{access=udp,mux=ts,dst=127.0.0.1:1234}}
+new channel3 broadcast enabled
+setup channel3 input rtsp://camera3_ip
+setup channel3 option network-caching=1000
 
-control background play
+new channel4 broadcast enabled
+setup channel4 input rtsp://camera4_ip
+setup channel4 option network-caching=1000
+
+new mosaic broadcast enabled
+setup mosaic input fake:
+setup mosaic output #transcode{sfilter=mosaic{alpha=255,width=1280,height=720,cols=2,rows=2,position=1,order="1,2,3,4",keep-picture=1},vcodec=mp4v,vb=4096,acodec=none,channels=2,samplerate=44100}:bridge-in{offset=0}:duplicate{dst=display}
+
 control channel1 play
 control channel2 play
-
-
-
-
-vlc -I dummy --vlm-conf path\to\mosaic_config.vlm
+control channel3 play
+control channel4 play
+control mosaic play
