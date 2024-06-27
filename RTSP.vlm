@@ -23,3 +23,6 @@ control channel2 play
 control channel3 play
 control channel4 play
 control mosaic play
+
+
+vlc -I dummy --vlm-conf=path_to_your_mosaic_config.vlm
